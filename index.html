@@ -9,11 +9,12 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#F5F2EC;
-  --ink:#2B2620;
-  --ink-soft:#6B6355;
-  --line:#E4DDD0;
+  --bg:#F4F1F9;
+  --ink:#2E2640;
+  --ink-soft:#6B5F80;
+  --line:#E1D9EF;
   --card:#FFFFFF;
+  --accent:#6B4E8E;
 }
 body{
   font-family:'Sora',sans-serif;
@@ -24,17 +25,17 @@ body{
 .wrap{max-width:1000px;margin:0 auto;padding:80px 32px 100px;}
 
 header{margin-bottom:64px;}
-.eyebrow{font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:14px;}
+.eyebrow{font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px;}
 h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(32px,5vw,48px);margin-bottom:16px;}
 .intro{font-size:16px;color:var(--ink-soft);max-width:56ch;line-height:1.7;}
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:64px;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:64px;}
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:16px;
   overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;
   transition:transform .15s ease, box-shadow .15s ease;
 }
-.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(43,38,32,0.10);}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(46,38,64,0.12);}
 .card-swatch{height:120px;}
 .card-body{padding:24px;}
 .card-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin-bottom:8px;}
@@ -55,13 +56,13 @@ footer a:hover{border-color:var(--ink);}
 <div class="wrap">
 
   <header>
-    <p class="eyebrow">Portafolio</p>
+    <p class="eyebrow">UI Designer · E-commerce</p>
     <h1>Andrea Guerrero</h1>
-    <p class="intro">Diseñadora UI/UX pivotando desde animación y post-producción hacia diseño de producto digital. Estos son proyectos reales de e-commerce y catálogo — no ejercicios genéricos.</p>
+    <p class="intro">Diseño interfaces con la misma precisión con la que llevo años ajustando composición, color y detalle pixel por pixel en producción audiovisual y VFX. Esa disciplina — narrativa visual, adaptación a múltiples formatos, coherencia de marca bajo presión de tiempo real — es la que aplico aquí, en proyectos reales de e-commerce y catálogo.</p>
   </header>
 
   <div class="grid">
-    <a class="card" href="bys/index.html">
+    <a class="card" href="BYS/index.html">
       <div class="card-swatch" style="background:linear-gradient(135deg,#E8C9D6,#F3E1E8);"></div>
       <div class="card-body">
         <p class="card-tag">Case study · E-commerce</p>
@@ -70,7 +71,7 @@ footer a:hover{border-color:var(--ink);}
       </div>
     </a>
 
-    <a class="card" href="sonnet/sonnet-product-page-final.html">
+    <a class="card" href="SONNET/sonnet-product-page-final.html">
       <div class="card-swatch" style="background:linear-gradient(135deg,#7C8B6F,#C9CBB8);"></div>
       <div class="card-body">
         <p class="card-tag">Product page · Skincare</p>
@@ -79,21 +80,12 @@ footer a:hover{border-color:var(--ink);}
       </div>
     </a>
 
-    <a class="card" href="lazarus/catalogo.html">
+    <a class="card" href="LAZARUS/catalogo.html">
       <div class="card-swatch" style="background:linear-gradient(135deg,#1A1A1A,#BD3E3E);"></div>
       <div class="card-body">
         <p class="card-tag">Collection + Product page · B2B</p>
         <p class="card-title">Lazarus ODF</p>
         <p class="card-desc">Catálogo de distribuidores ópticos de fibra óptica para un negocio real, con lista de cotización acumulable.</p>
-      </div>
-    </a>
-
-    <a class="card" href="fotograma/index.html">
-      <div class="card-swatch" style="background:linear-gradient(135deg,#2A2A2A,#2FA8A0);"></div>
-      <div class="card-body">
-        <p class="card-tag">Landing page · Estudio creativo</p>
-        <p class="card-title">Fotograma</p>
-        <p class="card-desc">Landing conceptual para un estudio de post-producción, con estética de línea de tiempo NLE.</p>
       </div>
     </a>
   </div>
