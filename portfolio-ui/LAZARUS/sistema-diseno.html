@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazarus · Brief de Diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#1A1A1A;--dark:#222222;--panel:#2A2A2A;--panel-light:#333333;
+  --red:#BD3E3E;--red-dark:#973131;--red-light:#CC6262;
+  --cream:#F0EEEB;--gray:#8A8A8A;--light:#CCCCCC;
+  --ff-display:'Barlow Condensed',sans-serif;--ff-body:'Barlow',sans-serif;
+}
+body{font-family:var(--ff-body);background:var(--black);color:var(--cream);font-size:15px;line-height:1.6;}
+.wrap{max-width:960px;margin:0 auto;padding:64px 40px 100px;}
+
+.eyebrow{font-family:var(--ff-display);font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+h1{font-family:var(--ff-display);font-size:56px;font-weight:900;font-style:italic;text-transform:uppercase;line-height:0.98;margin-bottom:18px;}
+h1 span{color:var(--red);}
+.intro{font-size:15px;font-weight:300;color:var(--light);max-width:640px;line-height:1.75;margin-bottom:56px;}
+
+h2{font-family:var(--ff-display);font-size:30px;font-weight:800;font-style:italic;text-transform:uppercase;color:var(--cream);margin-bottom:8px;letter-spacing:0.02em;}
+.section-sub{font-size:13px;color:var(--gray);margin-bottom:28px;max-width:600px;}
+section{margin-bottom:64px;}
+
+/* Direccion visual */
+.direction-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,0.06);margin-top:8px;}
+.direction-card{background:var(--panel);padding:22px 18px;border-top:3px solid var(--red);}
+.direction-card h4{font-family:var(--ff-display);font-size:15px;font-weight:800;font-style:italic;text-transform:uppercase;margin-bottom:8px;}
+.direction-card p{font-size:12.5px;font-weight:300;color:var(--gray);line-height:1.6;}
+
+/* Paleta */
+.color-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,0.06);}
+.color-card{background:var(--panel);padding:20px;}
+.swatch{width:100%;height:64px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.08);}
+.color-name{font-family:var(--ff-display);font-size:16px;font-weight:800;font-style:italic;text-transform:uppercase;margin-bottom:2px;}
+.color-hex{font-family:var(--ff-display);font-size:13px;color:var(--red-light);letter-spacing:0.04em;margin-bottom:8px;}
+.color-use{font-size:12px;font-weight:300;color:var(--gray);line-height:1.5;}
+
+/* Tipografia */
+.type-row{display:flex;align-items:baseline;gap:24px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
+.type-row:last-child{border-bottom:none;}
+.type-meta{width:170px;flex-shrink:0;}
+.type-label{font-family:var(--ff-display);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--red-light);}
+.type-specs{font-size:11px;color:var(--gray);margin-top:3px;}
+.type-sample{font-family:var(--ff-display);font-weight:900;font-style:italic;text-transform:uppercase;color:var(--cream);line-height:1;flex:1;}
+.type-sample.body-sample{font-family:var(--ff-body);font-weight:300;font-style:normal;text-transform:none;font-size:15px;line-height:1.6;color:var(--light);}
+
+/* Componentes */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,0.06);}
+.comp-card{background:var(--panel);padding:28px;display:flex;flex-direction:column;align-items:flex-start;gap:14px;}
+.comp-label{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);}
+.btn-demo{font-family:var(--ff-display);background:var(--red);color:var(--cream);padding:13px 30px;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;border:none;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);}
+.tag-demo{display:flex;gap:8px;}
+.tag-demo span{font-family:var(--ff-display);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(255,255,255,0.15);color:var(--light);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);}
+.tag-demo span.accent{background:var(--red);border-color:var(--red);color:var(--cream);}
+.screw-demo{width:34px;height:34px;}
+
+footer{border-top:2px solid var(--red);padding-top:24px;font-size:11px;color:var(--gray);}
+
+@media(max-width:800px){
+  .direction-grid{grid-template-columns:repeat(2,1fr);}
+  .color-grid{grid-template-columns:1fr 1fr;}
+  .comp-grid{grid-template-columns:1fr;}
+  .type-row{flex-direction:column;gap:6px;}
+  .type-meta{width:auto;}
+  h1{font-size:38px;}
+}
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="t-vector" viewBox="0 0 746.16 746.16">
+    <path fill="#BD3E3E" d="M746.16,373.08c0,206.05-167.03,373.08-373.08,373.08S0,579.13,0,373.08,167.03,0,373.08,0s373.08,167.03,373.08,373.08ZM543.32,507.44l-66.98-101.43c-11.4-17.27-12.7-45.78-1.05-63.62l69.58-106.53c5.11-7.82,5.23-23.41.3-29.63-5.42-6.85-24.72-11.24-31.53-6.88l-110.57,70.94c-16.83,10.8-44.43,11.28-61.6.13l-109.88-71.35c-6.57-4.26-24.48-.21-29.28,5.64-4.11,5.02-6.9,21.68-3.2,27.47l69.97,109.62c13.93,21.82,10.17,47.33-2.99,67.83l-68.32,106.48c-3.94,6.13,2.42,25.58,8.36,29.28s20.8,5.08,26.68,1.25l106.65-69.61c19.26-12.57,46.58-12.02,65.73.27l110.27,70.79c7.49,4.81,26.49-2.34,30.9-9.92,4.13-7.08,2.82-21.82-3.05-30.71Z"/>
+  </symbol>
+</svg>
+<div class="wrap">
+
+  <p class="eyebrow">Brief de diseño</p>
+  <h1>Lazarus <span>ODF</span></h1>
+  <p class="intro">Sistema visual para la línea de distribuidores ópticos ODF — construido para transmitir precisión técnica e infraestructura profesional, no para verse como una tienda de consumo. Este documento reúne la dirección visual, paleta y tipografía ya implementadas en el sitio.</p>
+
+  <section>
+    <h2>Dirección visual</h2>
+    <p class="section-sub">Cuatro decisiones que definen el carácter de la marca.</p>
+    <div class="direction-grid">
+      <div class="direction-card">
+        <h4>Fondo oscuro</h4>
+        <p>Señala seriedad técnica e infraestructura profesional — no el blanco/pastel típico de e-commerce de consumo.</p>
+      </div>
+      <div class="direction-card">
+        <h4>Rojo como acento único</h4>
+        <p>Un solo color de marca, usado con disciplina — CTAs, bordes, datos clave. Nunca decorativo sin propósito.</p>
+      </div>
+      <div class="direction-card">
+        <h4>Motivo de tornillería</h4>
+        <p>Los círculos de "tornillo" en las esquinas refuerzan la idea de hardware real, fabricado, no una interfaz abstracta.</p>
+      </div>
+      <div class="direction-card">
+        <h4>Bordes angulares</h4>
+        <p>Botones y tags con esquinas cortadas (clip-path) — geometría industrial, no las esquinas redondeadas de apps de consumo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Paleta de color</h2>
+    <p class="section-sub">Valores reales del sistema — verificados por muestreo de color contra el catálogo impreso original.</p>
+    <div class="color-grid">
+      <div class="color-card"><div class="swatch" style="background:#1A1A1A;"></div><div class="color-name">Black</div><div class="color-hex">#1A1A1A</div><div class="color-use">Fondo base de toda la página</div></div>
+      <div class="color-card"><div class="swatch" style="background:#222222;"></div><div class="color-name">Dark</div><div class="color-hex">#222222</div><div class="color-use">Fondo de secciones alternas</div></div>
+      <div class="color-card"><div class="swatch" style="background:#2A2A2A;"></div><div class="color-name">Panel</div><div class="color-hex">#2A2A2A</div><div class="color-use">Tarjetas, tablas, superficies elevadas</div></div>
+      <div class="color-card"><div class="swatch" style="background:#BD3E3E;"></div><div class="color-name">Red</div><div class="color-hex">#BD3E3E</div><div class="color-use">Acento de marca — CTAs, bordes, datos clave</div></div>
+      <div class="color-card"><div class="swatch" style="background:#973131;"></div><div class="color-name">Red Dark</div><div class="color-hex">#973131</div><div class="color-use">Hover states, énfasis reducido</div></div>
+      <div class="color-card"><div class="swatch" style="background:#CC6262;"></div><div class="color-name">Red Light</div><div class="color-hex">#CC6262</div><div class="color-use">Texto de acento sobre fondo oscuro</div></div>
+      <div class="color-card"><div class="swatch" style="background:#F0EEEB;"></div><div class="color-name">Cream</div><div class="color-hex">#F0EEEB</div><div class="color-use">Texto principal sobre fondo oscuro</div></div>
+      <div class="color-card"><div class="swatch" style="background:#CCCCCC;"></div><div class="color-name">Light</div><div class="color-hex">#CCCCCC</div><div class="color-use">Texto de cuerpo secundario</div></div>
+      <div class="color-card"><div class="swatch" style="background:#8A8A8A;"></div><div class="color-name">Gray</div><div class="color-hex">#8A8A8A</div><div class="color-use">Etiquetas, texto terciario, bordes</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tipografía</h2>
+    <p class="section-sub">Barlow Condensed para todo lo que grita ("marca hablando") · Barlow para todo lo que se lee ("información hablando").</p>
+
+    <div class="type-row">
+      <div class="type-meta"><div class="type-label">Hero / Product Title</div><div class="type-specs">Barlow Condensed · 900 italic · 64px</div></div>
+      <div class="type-sample" style="font-size:44px;">Distribuidores ODF</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-label">Section Title</div><div class="type-specs">Barlow Condensed · 900 italic · 44px</div></div>
+      <div class="type-sample" style="font-size:34px;">Por qué Lazarus</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-label">Feature / Card Title</div><div class="type-specs">Barlow Condensed · 800 italic · 18px</div></div>
+      <div class="type-sample" style="font-size:18px;">Aluminio estructural</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-label">Eyebrow / Label</div><div class="type-specs">Barlow Condensed · 600 · 12px · uppercase</div></div>
+      <div class="type-sample" style="font-size:13px;letter-spacing:0.2em;">Fabricación local</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-label">Body</div><div class="type-specs">Barlow · 300 · 15px</div></div>
+      <div class="type-sample body-sample">Fabricados en aluminio bajo normas de comunicaciones de fibra óptica, en 5 configuraciones rack.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Componentes clave</h2>
+    <p class="section-sub">Patrones reutilizables a lo largo de todo el sitio.</p>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <span class="comp-label">Botón primario</span>
+        <button class="btn-demo">Cotizar ahora</button>
+      </div>
+      <div class="comp-card">
+        <span class="comp-label">Tags de especificación</span>
+        <div class="tag-demo"><span class="accent">3 charolas</span><span>4 entradas</span><span>Aluminio</span></div>
+      </div>
+      <div class="comp-card">
+        <span class="comp-label">Motivo de tornillería</span>
+        <div style="display:flex;gap:12px;">
+          <svg class="screw-demo"><use href="#t-vector"/></svg>
+          <svg class="screw-demo"><use href="#t-vector"/></svg>
+          <svg class="screw-demo"><use href="#t-vector"/></svg>
+        </div>
+      </div>
+      <div class="comp-card">
+        <span class="comp-label">Borde de acento</span>
+        <div style="border-left:3px solid var(--red);padding:10px 16px;background:var(--dark);font-size:13px;color:var(--light);">Nota o dato destacado</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Lazarus · Brief de diseño interno · Basado en el sistema implementado en catalogo.html / producto.html</footer>
+
+</div>
+</body>
+</html>
