@@ -41,6 +41,15 @@ h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(32px,5vw,48px);m
 .card-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin-bottom:8px;}
 .card-desc{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px;}
 .card-tag{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.card-action{
+  font-size:12px;font-weight:600;padding:7px 14px;border-radius:20px;
+  border:1px solid var(--line);color:var(--ink);text-decoration:none;
+  transition:background .15s ease, border-color .15s ease;
+}
+.card-action:hover{background:var(--bg);border-color:var(--accent);}
+.card-action.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.card-action.primary:hover{opacity:0.88;}
 
 footer{border-top:1px solid var(--line);padding-top:32px;display:flex;gap:24px;flex-wrap:wrap;font-size:14px;}
 footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);}
@@ -62,32 +71,46 @@ footer a:hover{border-color:var(--ink);}
   </header>
 
   <div class="grid">
-    <a class="card" href="BYS/index.html">
+    <div class="card">
       <div class="card-swatch" style="background:linear-gradient(135deg,#E8C9D6,#F3E1E8);"></div>
       <div class="card-body">
         <p class="card-tag">Case study · E-commerce</p>
         <p class="card-title">BYS Cosmetics</p>
         <p class="card-desc">Rediseño de la página de producto Kiss Drip Lip Oil, con dirección visual suave y femenina.</p>
+        <div class="card-actions">
+          <a class="card-action primary" href="BYS/index.html">Ver proyecto ↗</a>
+          <a class="card-action" href="BYS/CaseStudy_BYS_Andrea%20Guerrero%202026.pdf" target="_blank" rel="noopener">Case study (PDF)</a>
+          <a class="card-action" href="https://www.figma.com/design/BEU3cPoRi90uvxjgRbAhJm/BYS-Cosmetics" target="_blank" rel="noopener">Ver en Figma</a>
+        </div>
       </div>
-    </a>
+    </div>
 
-    <a class="card" href="SONNET/sonnet-product-page-final.html">
+    <div class="card">
       <div class="card-swatch" style="background:linear-gradient(135deg,#7C8B6F,#C9CBB8);"></div>
       <div class="card-body">
         <p class="card-tag">Product page · Skincare</p>
         <p class="card-title">Sonnet — Bare Earth</p>
         <p class="card-desc">Página de producto para una línea de skincare, con sistema de diseño documentado.</p>
+        <div class="card-actions">
+          <a class="card-action primary" href="SONNET/sonnet-product-page-final.html">Ver proyecto ↗</a>
+          <a class="card-action" href="https://www.figma.com/design/CnBNOWL3RNqcr67Qm1psbf/Andrea-Guerrero---UI-Designer" target="_blank" rel="noopener">Ver en Figma</a>
+        </div>
       </div>
-    </a>
+    </div>
 
-    <a class="card" href="LAZARUS/catalogo.html">
+    <div class="card">
       <div class="card-swatch" style="background:linear-gradient(135deg,#1A1A1A,#BD3E3E);"></div>
       <div class="card-body">
         <p class="card-tag">Collection + Product page · B2B</p>
         <p class="card-title">Lazarus ODF</p>
         <p class="card-desc">Catálogo de distribuidores ópticos de fibra óptica para un negocio real, con lista de cotización acumulable.</p>
+        <div class="card-actions">
+          <a class="card-action primary" href="LAZARUS/catalogo.html">Ver proyecto ↗</a>
+          <a class="card-action" href="LAZARUS/sistema-diseno.html" target="_blank" rel="noopener">Sistema de diseño</a>
+          <a class="card-action" href="LAZARUS/lazarus-catalogo-odf.pdf" target="_blank" rel="noopener">Catálogo (PDF)</a>
+        </div>
       </div>
-    </a>
+    </div>
   </div>
 
   <footer>
