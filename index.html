@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrea Guerrero — Portafolio UI/UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Asap:wght@500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F5E8F5;
+  --ink:#5A4A68;
+  --ink-soft:#977FA7;
+  --line:#E4EFF3;
+  --card:#F7F7F7;
+  --accent:#E0A0CC;
+  --accent-teal:#5AB8D8;
+  --tag-bg:#DDF0F8;
+}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:80px 32px 100px;}
+
+.lang-toggle{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:3px;margin-bottom:28px;}
+.lang-btn{border:none;background:none;font-size:12px;font-weight:700;padding:6px 14px;border-radius:3px;cursor:pointer;color:var(--ink-soft);font-family:'Sora',sans-serif;}
+.lang-btn.active{background:var(--accent);color:#fff;}
+
+header{margin-bottom:64px;}
+.eyebrow{font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px;}
+h1{font-family:'Asap',sans-serif;font-weight:700;font-size:clamp(32px,5vw,48px);margin-bottom:16px;color:var(--ink);}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px;}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:56px;padding-bottom:56px;border-bottom:1px solid var(--line);}
+.about-label{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;color:var(--accent-teal);margin-bottom:10px;}
+.about-text{font-size:15px;color:var(--ink-soft);line-height:1.7;}
+.cv-download{
+  display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
+  font-size:13px;font-weight:600;padding:9px 16px;border-radius:4px;margin-bottom:18px;
+}
+.cv-download:hover{opacity:0.88;}
+.cv-section-title{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;color:var(--ink);margin:14px 0 6px;}
+.cv-skills{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:64px;}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:4px;
+  overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(90,74,104,0.14);}
+.card-swatch{height:120px;}
+.card-body{padding:24px;}
+.card-title{font-family:'Asap',sans-serif;font-weight:700;font-size:22px;margin-bottom:8px;color:var(--ink);}
+.card-desc{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px;}
+.card-tag{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:var(--accent-teal);}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.card-action{
+  font-size:12px;font-weight:600;padding:7px 14px;border-radius:4px;
+  border:1px solid var(--line);color:var(--ink);text-decoration:none;
+  transition:background .15s ease, border-color .15s ease;
+}
+.card-action:hover{background:var(--tag-bg);border-color:var(--accent-teal);}
+.card-action.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.card-action.primary:hover{opacity:0.88;}
+
+footer{border-top:1px solid var(--line);padding-top:32px;display:flex;gap:24px;flex-wrap:wrap;font-size:14px;}
+footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);}
+footer a:hover{border-color:var(--ink);}
+
+@media (max-width:680px){
+  .grid{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;gap:36px;}
+  .skills-grid{grid-template-columns:1fr;gap:28px;}
+  .wrap{padding:56px 20px 80px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+
+  <header>
+    <p class="eyebrow" data-es="Diseñadora UI · E-commerce" data-en="UI Designer · E-commerce">Diseñadora UI · E-commerce</p>
+    <h1>Andrea Guerrero</h1>
+  </header>
+
+  <section class="about-grid">
+    <div class="about-col">
+      <p class="about-label" data-es="Sobre mí" data-en="About me">Sobre mí</p>
+      <p class="about-text" data-es="Diseñadora UI especializada en composición, color y jerarquía visual. Trabajo en proyectos simultáneos, con atención obsesiva al detalle y la disciplina de llevar cada decisión de diseño hasta su versión final." data-en="UI designer specialized in composition, color, and visual hierarchy. I work across simultaneous projects with obsessive attention to detail and the discipline to take every design decision through to its final version.">Diseñadora UI especializada en composición, color y jerarquía visual. Trabajo en proyectos simultáneos, con atención obsesiva al detalle y la disciplina de llevar cada decisión de diseño hasta su versión final.</p>
+    </div>
+    <div class="about-col">
+      <p class="about-label" data-es="CV" data-en="Resume">CV</p>
+      <a class="cv-download" href="UI_UX_Andrea_Guerrero_2026.pdf" download data-es="Descargar CV (.pdf) ↓" data-en="Download resume (.pdf) ↓">Descargar CV (.pdf) ↓</a>
+    </div>
+  </section>
+
+  <section class="skills-grid">
+    <div class="about-col">
+      <p class="cv-section-title" data-es="Habilidades" data-en="Skills">Habilidades</p>
+      <p class="cv-skills" data-es="Composición, teoría del color, jerarquía visual, tipografía, design systems · Photoshop, Illustrator, Figma · Producción de assets multi-formato · Prototipado, adaptación mobile / desktop / tablet" data-en="Composition, color theory, visual hierarchy, typography, design systems · Photoshop, Illustrator, Figma · Multi-format asset production · Prototyping, mobile / desktop / tablet adaptation">Composición, teoría del color, jerarquía visual, tipografía, design systems · Photoshop, Illustrator, Figma · Producción de assets multi-formato · Prototipado, adaptación mobile / desktop / tablet</p>
+    </div>
+    <div class="about-col">
+      <p class="cv-section-title" data-es="Educación" data-en="Education">Educación</p>
+      <p class="cv-skills" data-es="Lic. Animación y Arte Digital — Tecnológico de Monterrey (2018–2023) · Shopify Partner Academy — Fundamentos · Certificado Profesional de Diseño UX de Google (en curso)" data-en="B.A. in Animation & Digital Art — Tecnológico de Monterrey (2018–2023) · Shopify Partner Academy — Fundamentals · Google UX Design Professional Certificate (in progress)">Lic. Animación y Arte Digital — Tecnológico de Monterrey (2018–2023) · Shopify Partner Academy — Fundamentos · Certificado Profesional de Diseño UX de Google (en curso)</p>
+    </div>
+  </section>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-swatch" style="background:linear-gradient(135deg,#E8C9D6,#F3E1E8);"></div>
+      <div class="card-body">
+        <p class="card-tag" data-es="Caso de estudio · E-commerce" data-en="Case study · E-commerce">Caso de estudio · E-commerce</p>
+        <p class="card-title">BYS Cosmetics</p>
+        <p class="card-desc" data-es="Rediseño de la página de producto Kiss Drip Lip Oil, con dirección visual suave y femenina." data-en="Redesign of the Kiss Drip Lip Oil product page, with a soft, feminine visual direction.">Rediseño de la página de producto Kiss Drip Lip Oil, con dirección visual suave y femenina.</p>
+        <div class="card-actions">
+          <a class="card-action primary" href="BYS/index.html" data-es="Ver proyecto ↗" data-en="View project ↗">Ver proyecto ↗</a>
+          <a class="card-action" href="BYS/CaseStudy_BYS_Andrea%20Guerrero%202026.pdf" target="_blank" rel="noopener" data-es="Case study (PDF)" data-en="Case study (PDF)">Case study (PDF)</a>
+          <a class="card-action" href="https://www.figma.com/design/BEU3cPoRi90uvxjgRbAhJm/BYS-Cosmetics" target="_blank" rel="noopener" data-es="Ver en Figma" data-en="View in Figma">Ver en Figma</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-swatch" style="background:linear-gradient(135deg,#7C8B6F,#C9CBB8);"></div>
+      <div class="card-body">
+        <p class="card-tag" data-es="Página de producto · Skincare" data-en="Product page · Skincare">Página de producto · Skincare</p>
+        <p class="card-title">Sonnet — Bare Earth</p>
+        <p class="card-desc" data-es="Página de producto para una línea de skincare, con sistema de diseño documentado." data-en="Product page for a skincare line, with a documented design system.">Página de producto para una línea de skincare, con sistema de diseño documentado.</p>
+        <div class="card-actions">
+          <a class="card-action primary" href="SONNET/sonnet-product-page-final.html" data-es="Ver proyecto ↗" data-en="View project ↗">Ver proyecto ↗</a>
+          <a class="card-action" href="SONNET/NOTA-REFLEXION.md" target="_blank" rel="noopener" data-es="Nota de reflexión" data-en="Reflection note">Nota de reflexión</a>
+          <a class="card-action" href="https://www.figma.com/design/CnBNOWL3RNqcr67Qm1psbf/Andrea-Guerrero---UI-Designer" target="_blank" rel="noopener" data-es="Ver en Figma" data-en="View in Figma">Ver en Figma</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-swatch" style="background:linear-gradient(135deg,#1A1A1A,#BD3E3E);"></div>
+      <div class="card-body">
+        <p class="card-tag" data-es="Catálogo + Ficha de producto · B2B" data-en="Collection + Product page · B2B">Catálogo + Ficha de producto · B2B</p>
+        <p class="card-title">Lazarus ODF</p>
+        <p class="card-desc" data-es="Catálogo de distribuidores ópticos de fibra óptica para un negocio real, con lista de cotización acumulable." data-en="Catalog of fiber-optic distributor units for a real business, with an accumulative quote list.">Catálogo de distribuidores ópticos de fibra óptica para un negocio real, con lista de cotización acumulable.</p>
+        <div class="card-actions">
+          <a class="card-action primary" href="LAZARUS/catalogo.html" data-es="Ver proyecto ↗" data-en="View project ↗">Ver proyecto ↗</a>
+          <a class="card-action" href="LAZARUS/sistema-diseno.html" target="_blank" rel="noopener" data-es="Sistema de diseño" data-en="Design system">Sistema de diseño</a>
+          <a class="card-action" href="LAZARUS/lazarus-catalogo-odf.pdf" target="_blank" rel="noopener" data-es="Catálogo (PDF)" data-en="Catalog (PDF)">Catálogo (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="mailto:a.guerreavi@gmail.com">a.guerreavi@gmail.com</a>
+    <a href="https://linkedin.com/in/andrea-vfx/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://vimeo.com/andreagvfx" target="_blank" rel="noopener">Vimeo</a>
+    <a href="https://www.behance.net/guerreroandrea" target="_blank" rel="noopener">Behance</a>
+  </footer>
+
+</div>
+
+<script>
+  function setLang(lang){
+    document.querySelectorAll('[data-es]').forEach(function(el){
+      var val = lang === 'en' ? el.dataset.en : el.dataset.es;
+      if(val !== undefined) el.textContent = val;
+    });
+    document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+    try{ localStorage.setItem('portfolio-lang', lang); }catch(e){}
+  }
+
+  (function(){
+    var saved = 'es';
+    try{ saved = localStorage.getItem('portfolio-lang') || 'es'; }catch(e){}
+    if(saved === 'en') setLang('en');
+  })();
+</script>
+</body>
+</html>
