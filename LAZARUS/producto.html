@@ -381,6 +381,43 @@ nav{
 }
 .tag.accent{background:var(--red);border-color:var(--red);color:var(--cream);}
 
+/* ============ OPTION PICKER (color / modo / conector) ============ */
+.option-picker{display:flex;flex-direction:column;gap:18px;margin-bottom:24px;}
+.option-group-label{
+  font-family:var(--ff-display);
+  font-size:11px;font-weight:600;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--gray);
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;
+}
+.option-group-value{
+  font-family:var(--ff-body);
+  font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;
+  color:var(--cream);
+}
+.option-swatches{display:flex;gap:10px;flex-wrap:wrap;}
+.option-swatch{
+  width:32px;height:32px;border-radius:50%;
+  border:none;cursor:pointer;padding:0;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.18);
+  transition:box-shadow 0.15s, transform 0.15s;
+}
+.option-swatch:hover{transform:scale(1.08);}
+.option-swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--dark),0 0 0 4px var(--red);}
+.option-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.option-pill{
+  font-family:var(--ff-display);
+  background:transparent;color:var(--light);
+  padding:8px 18px;font-size:12px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  border:1.5px solid rgba(255,255,255,0.18);cursor:pointer;
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+  transition:border-color 0.15s, background 0.15s, color 0.15s;
+}
+.option-pill:hover{border-color:var(--red-light);color:var(--red-light);}
+.option-pill[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--cream);}
+
 /* SPEC TABLE FULL */
 .spec-table-wrap{
   padding:0 40px 56px;
@@ -764,9 +801,21 @@ footer{
   font-family:var(--ff-display);font-size:14px;font-weight:700;
   text-transform:uppercase;color:var(--cream);letter-spacing:0.03em;
 }
+.quote-row-info{display:flex;flex-direction:column;gap:3px;}
+.quote-row .quote-row-opts{
+  font-family:var(--ff-body);font-size:11px;font-weight:400;
+  text-transform:none;letter-spacing:0.02em;color:var(--gray);
+}
 .quote-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:15px;padding:4px 8px;}
 .quote-remove:hover{color:var(--red-light);}
 .quote-drawer-empty{font-size:13px;font-weight:300;color:var(--gray);line-height:1.6;}
+.quote-drawer-notice{
+  font-size:11.5px;font-weight:300;line-height:1.5;
+  color:var(--gray);
+  margin-top:16px;padding:12px 14px;
+  background:rgba(255,255,255,0.03);
+  border-left:2px solid var(--red);
+}
 .quote-submit{
   width:100%;justify-content:center;text-decoration:none;border:none;margin-top:20px;
   cursor:pointer;
@@ -852,7 +901,7 @@ footer{
 </li>
 <li><a href="catalogo.html#proceso">Proceso</a></li>
 </ul>
-<button class="nav-cta" id="quote-nav-btn" onclick="openQuoteDrawer()">Cotizar ahora</button>
+<button class="nav-cta" id="quote-nav-btn" onclick="openQuoteDrawer()">Ver mi lista</button>
 <button aria-controls="nav-links" aria-expanded="false" aria-label="Abrir menú" class="nav-toggle" id="nav-toggle">
 <span></span><span></span><span></span>
 </button>
@@ -867,12 +916,26 @@ footer{
       <p class="product-sku-line" id="p-sku"></p>
       <p class="product-desc" id="p-desc"></p>
       <div class="product-tags" id="p-tags"></div>
+      <div class="option-picker" id="p-options">
+        <div class="option-group">
+          <span class="option-group-label">Color <span class="option-group-value" id="p-color-value"></span></span>
+          <div class="option-swatches" id="p-color-swatches"></div>
+        </div>
+        <div class="option-group">
+          <span class="option-group-label">Tipo de modo</span>
+          <div class="option-pills" id="p-mode-options"></div>
+        </div>
+        <div class="option-group">
+          <span class="option-group-label">Conector</span>
+          <div class="option-pills" id="p-connector-options"></div>
+        </div>
+      </div>
       <div class="price-box">
         <div>
           <div class="price-box-text">Precio a consultar</div>
           <div class="price-box-sub">Costo de envío pendiente de definir</div>
         </div>
-        <button class="btn-dark-small" id="p-add-quote-btn">Agregar a cotización</button>
+        <button class="btn-dark-small" id="p-add-quote-btn">Agregar a la lista</button>
       </div>
     </div>
     <div class="product-hero-img screws-wrap">
@@ -927,7 +990,7 @@ footer{
 <div>
 <p class="footer-col-title">Contacto</p>
 <ul class="footer-links">
-<li><a href="#" onclick="event.preventDefault(); showToast('Cotizar — función de demostración')">Cotizar</a></li>
+<li><a href="#" onclick="event.preventDefault(); showToast('Solicitud — función de demostración')">Solicitar información</a></li>
 <li><a href="#" onclick="event.preventDefault(); showToast('Soporte técnico — función de demostración')">Soporte técnico</a></li>
 <li><a href="#" onclick="event.preventDefault(); showToast('Distribuidores — función de demostración')">Distribuidores</a></li>
 </ul>
@@ -942,11 +1005,12 @@ footer{
 <div id="quote-overlay" class="quote-overlay" onclick="closeQuoteDrawer()"></div>
 <aside id="quote-drawer" class="quote-drawer">
   <div class="quote-drawer-head">
-    <span>Tu cotización</span>
+    <span>Tu lista de productos</span>
     <button class="quote-close" onclick="closeQuoteDrawer()" aria-label="Cerrar">✕</button>
   </div>
   <div id="quote-drawer-body" class="quote-drawer-body"></div>
-  <p id="quote-drawer-empty" class="quote-drawer-empty">Aún no has agregado modelos. Ve al catálogo y agrega los que quieras cotizar.</p>
+  <p id="quote-drawer-empty" class="quote-drawer-empty">Aún no has agregado modelos. Ve al catálogo y agrega los que te interesen a tu lista.</p>
+  <p class="quote-drawer-notice">Nuestro equipo se pondrá en contacto contigo para completar tu solicitud.</p>
   <button class="btn-red quote-submit" onclick="submitQuoteList()">Enviar solicitud</button>
 </aside>
 
@@ -1014,21 +1078,24 @@ footer{
   function updateQuoteBadge(){
     const count = getQuoteList().length;
     const btn = document.getElementById('quote-nav-btn');
-    if(btn) btn.textContent = count > 0 ? 'Cotización (' + count + ')' : 'Cotizar ahora';
+    if(btn) btn.textContent = count > 0 ? 'Ver mi lista (' + count + ')' : 'Ver mi lista';
   }
-  function addToQuoteList(modelo, nombre){
+  function addToQuoteList(modelo, nombre, opciones){
+    opciones = opciones || null;
     const list = getQuoteList();
-    if(list.find(i=>i.modelo===modelo)){
-      showToast(nombre + ' ya está en tu cotización');
+    if(list.find(i=> i.modelo===modelo && JSON.stringify(i.opciones||null)===JSON.stringify(opciones))){
+      showToast(nombre + ' ya está en tu lista con esas opciones');
       return;
     }
-    list.push({modelo:modelo, nombre:nombre});
+    list.push({modelo:modelo, nombre:nombre, opciones:opciones});
     saveQuoteList(list);
-    showToast(nombre + ' agregado a tu cotización');
+    showToast(nombre + ' agregado a tu lista');
     renderQuoteDrawer();
   }
-  function removeFromQuoteList(modelo){
-    saveQuoteList(getQuoteList().filter(i=>i.modelo!==modelo));
+  function removeFromQuoteList(index){
+    const list = getQuoteList();
+    list.splice(index, 1);
+    saveQuoteList(list);
     renderQuoteDrawer();
   }
   function renderQuoteDrawer(){
@@ -1042,17 +1109,26 @@ footer{
       return;
     }
     if(emptyMsg) emptyMsg.style.display = 'none';
-    list.forEach(item=>{
+    list.forEach((item, idx)=>{
       const row = document.createElement('div');
       row.className = 'quote-row';
+      const info = document.createElement('div');
+      info.className = 'quote-row-info';
       const span = document.createElement('span');
       span.textContent = item.nombre;
+      info.appendChild(span);
+      if(item.opciones){
+        const opts = document.createElement('span');
+        opts.className = 'quote-row-opts';
+        opts.textContent = item.opciones.color + ' · ' + item.opciones.modo + ' · ' + item.opciones.conector;
+        info.appendChild(opts);
+      }
       const removeBtn = document.createElement('button');
       removeBtn.className = 'quote-remove';
       removeBtn.textContent = '✕';
       removeBtn.setAttribute('aria-label', 'Quitar ' + item.nombre);
-      removeBtn.addEventListener('click', ()=> removeFromQuoteList(item.modelo));
-      row.appendChild(span);
+      removeBtn.addEventListener('click', ()=> removeFromQuoteList(idx));
+      row.appendChild(info);
       row.appendChild(removeBtn);
       body.appendChild(row);
     });
@@ -1075,6 +1151,16 @@ footer{
   }
 
   updateQuoteBadge();
+
+  // ---- Opciones seleccionables (color / modo / conector) — iguales para los 5 modelos ----
+  const COLOR_HEX = {
+    'Negro':'#1A1A1A', 'Mostaza':'#C9A84C', 'Terracota':'#B5522A', 'Beige':'#E8DFD0', 'Gris Claro':'#AAAAAA'
+  };
+  const PRODUCT_OPTIONS = {
+    colors: ['Negro','Mostaza','Terracota','Beige','Gris Claro'],
+    modes: ['Monomodo','Multimodo'],
+    connectors: ['LC','SC','ST','FC']
+  };
 
   // ---- Plantilla de producto: lee ?modelo= de la URL y rellena con los datos ----
   const PRODUCTS = {
@@ -1610,8 +1696,57 @@ footer{
     document.getElementById('p-sku').textContent = data.skuLine;
     document.getElementById('p-desc').textContent = data.desc;
 
+    // ---- Selector de opciones: color / modo / conector ----
+    let selectedColor = PRODUCT_OPTIONS.colors[0];
+    let selectedMode = PRODUCT_OPTIONS.modes[0];
+    let selectedConnector = PRODUCT_OPTIONS.connectors[0];
+
+    const colorWrap = document.getElementById('p-color-swatches');
+    const colorValueLabel = document.getElementById('p-color-value');
+    colorWrap.innerHTML = '';
+    colorValueLabel.textContent = selectedColor;
+    PRODUCT_OPTIONS.colors.forEach(color=>{
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-swatch';
+      btn.style.background = COLOR_HEX[color] || '#888';
+      btn.setAttribute('aria-label', color);
+      btn.setAttribute('aria-pressed', color === selectedColor ? 'true' : 'false');
+      btn.addEventListener('click', ()=>{
+        selectedColor = color;
+        colorWrap.querySelectorAll('.option-swatch').forEach(b=> b.setAttribute('aria-pressed','false'));
+        btn.setAttribute('aria-pressed','true');
+        colorValueLabel.textContent = color;
+      });
+      colorWrap.appendChild(btn);
+    });
+
+    function buildPillGroup(wrapId, options, onSelect){
+      const wrap = document.getElementById(wrapId);
+      wrap.innerHTML = '';
+      options.forEach((opt, idx)=>{
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-pill';
+        btn.textContent = opt;
+        btn.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+        btn.addEventListener('click', ()=>{
+          wrap.querySelectorAll('.option-pill').forEach(b=> b.setAttribute('aria-pressed','false'));
+          btn.setAttribute('aria-pressed','true');
+          onSelect(opt);
+        });
+        wrap.appendChild(btn);
+      });
+    }
+    buildPillGroup('p-mode-options', PRODUCT_OPTIONS.modes, (val)=>{ selectedMode = val; });
+    buildPillGroup('p-connector-options', PRODUCT_OPTIONS.connectors, (val)=>{ selectedConnector = val; });
+
     const addQuoteBtn = document.getElementById('p-add-quote-btn');
-    if(addQuoteBtn) addQuoteBtn.onclick = ()=> addToQuoteList(modelo, data.title);
+    if(addQuoteBtn) addQuoteBtn.onclick = ()=> addToQuoteList(modelo, data.title, {
+      color: selectedColor,
+      modo: selectedMode,
+      conector: selectedConnector
+    });
 
     const tagsWrap = document.getElementById('p-tags');
     tagsWrap.innerHTML = '';

@@ -788,9 +788,21 @@ footer{
   font-family:var(--ff-display);font-size:14px;font-weight:700;
   text-transform:uppercase;color:var(--cream);letter-spacing:0.03em;
 }
+.quote-row-info{display:flex;flex-direction:column;gap:3px;}
+.quote-row .quote-row-opts{
+  font-family:var(--ff-body);font-size:11px;font-weight:400;
+  text-transform:none;letter-spacing:0.02em;color:var(--gray);
+}
 .quote-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:15px;padding:4px 8px;}
 .quote-remove:hover{color:var(--red-light);}
 .quote-drawer-empty{font-size:13px;font-weight:300;color:var(--gray);line-height:1.6;}
+.quote-drawer-notice{
+  font-size:11.5px;font-weight:300;line-height:1.5;
+  color:var(--gray);
+  margin-top:16px;padding:12px 14px;
+  background:rgba(255,255,255,0.03);
+  border-left:2px solid var(--red);
+}
 .quote-submit{
   width:100%;justify-content:center;text-decoration:none;border:none;margin-top:20px;
   cursor:pointer;
@@ -877,7 +889,7 @@ footer{
 </li>
 <li><a href="#proceso">Proceso</a></li>
 </ul>
-<button class="nav-cta" id="quote-nav-btn" onclick="openQuoteDrawer()">Cotizar ahora</button>
+<button class="nav-cta" id="quote-nav-btn" onclick="openQuoteDrawer()">Ver mi lista</button>
 <button aria-controls="nav-links" aria-expanded="false" aria-label="Abrir menú" class="nav-toggle" id="nav-toggle">
 <span></span><span></span><span></span>
 </button>
@@ -1076,9 +1088,9 @@ footer{
 <div class="process-steps">
 <div class="process-step">
 <div class="step-num"><span>01</span></div>
-<div class="step-title">Cotización</div>
+<div class="step-title">Solicitud</div>
 <div class="step-days">Día 0–1</div>
-<p class="step-desc">Envío de cotización detallada según requerimientos.</p>
+<p class="step-desc">Envío de propuesta detallada según requerimientos.</p>
 </div>
 <div class="process-step">
 <div class="step-num"><span>02</span></div>
@@ -1110,10 +1122,10 @@ footer{
 <section class="cta-banner">
 <div>
 <h2 class="cta-title">¿Necesitas una<br/>configuración especial?</h2>
-<p class="cta-sub">Cotizamos proyectos a medida. LC, SC, ST o FC — monomodo o multimodo — nosotros lo construimos.</p>
+<p class="cta-sub">Armamos proyectos a medida. LC, SC, ST o FC — monomodo o multimodo — nosotros lo construimos.</p>
 </div>
 <div class="cta-actions">
-<button class="btn-dark" onclick="showToast('Cotización — función de demostración')">Solicitar cotización</button>
+<button class="btn-dark" onclick="showToast('Solicitud — función de demostración')">Solicitar información</button>
 <span style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;">Respuesta en 24 hrs · Sin compromiso</span>
 </div>
 </section>
@@ -1146,7 +1158,7 @@ footer{
 <div>
 <p class="footer-col-title">Contacto</p>
 <ul class="footer-links">
-<li><a href="#" onclick="event.preventDefault(); showToast('Cotizar — función de demostración')">Cotizar</a></li>
+<li><a href="#" onclick="event.preventDefault(); showToast('Solicitud — función de demostración')">Solicitar información</a></li>
 <li><a href="#" onclick="event.preventDefault(); showToast('Soporte técnico — función de demostración')">Soporte técnico</a></li>
 <li><a href="#" onclick="event.preventDefault(); showToast('Distribuidores — función de demostración')">Distribuidores</a></li>
 </ul>
@@ -1161,11 +1173,12 @@ footer{
 <div id="quote-overlay" class="quote-overlay" onclick="closeQuoteDrawer()"></div>
 <aside id="quote-drawer" class="quote-drawer">
   <div class="quote-drawer-head">
-    <span>Tu cotización</span>
+    <span>Tu lista de productos</span>
     <button class="quote-close" onclick="closeQuoteDrawer()" aria-label="Cerrar">✕</button>
   </div>
   <div id="quote-drawer-body" class="quote-drawer-body"></div>
-  <p id="quote-drawer-empty" class="quote-drawer-empty">Aún no has agregado modelos. Ve al catálogo y agrega los que quieras cotizar.</p>
+  <p id="quote-drawer-empty" class="quote-drawer-empty">Aún no has agregado modelos. Ve al catálogo y agrega los que te interesen a tu lista.</p>
+  <p class="quote-drawer-notice">Nuestro equipo se pondrá en contacto contigo para completar tu solicitud.</p>
   <button class="btn-red quote-submit" onclick="submitQuoteList()">Enviar solicitud</button>
 </aside>
 
@@ -1233,21 +1246,24 @@ footer{
   function updateQuoteBadge(){
     const count = getQuoteList().length;
     const btn = document.getElementById('quote-nav-btn');
-    if(btn) btn.textContent = count > 0 ? 'Cotización (' + count + ')' : 'Cotizar ahora';
+    if(btn) btn.textContent = count > 0 ? 'Ver mi lista (' + count + ')' : 'Ver mi lista';
   }
-  function addToQuoteList(modelo, nombre){
+  function addToQuoteList(modelo, nombre, opciones){
+    opciones = opciones || null;
     const list = getQuoteList();
-    if(list.find(i=>i.modelo===modelo)){
-      showToast(nombre + ' ya está en tu cotización');
+    if(list.find(i=> i.modelo===modelo && JSON.stringify(i.opciones||null)===JSON.stringify(opciones))){
+      showToast(nombre + ' ya está en tu lista con esas opciones');
       return;
     }
-    list.push({modelo:modelo, nombre:nombre});
+    list.push({modelo:modelo, nombre:nombre, opciones:opciones});
     saveQuoteList(list);
-    showToast(nombre + ' agregado a tu cotización');
+    showToast(nombre + ' agregado a tu lista');
     renderQuoteDrawer();
   }
-  function removeFromQuoteList(modelo){
-    saveQuoteList(getQuoteList().filter(i=>i.modelo!==modelo));
+  function removeFromQuoteList(index){
+    const list = getQuoteList();
+    list.splice(index, 1);
+    saveQuoteList(list);
     renderQuoteDrawer();
   }
   function renderQuoteDrawer(){
@@ -1261,17 +1277,26 @@ footer{
       return;
     }
     if(emptyMsg) emptyMsg.style.display = 'none';
-    list.forEach(item=>{
+    list.forEach((item, idx)=>{
       const row = document.createElement('div');
       row.className = 'quote-row';
+      const info = document.createElement('div');
+      info.className = 'quote-row-info';
       const span = document.createElement('span');
       span.textContent = item.nombre;
+      info.appendChild(span);
+      if(item.opciones){
+        const opts = document.createElement('span');
+        opts.className = 'quote-row-opts';
+        opts.textContent = item.opciones.color + ' · ' + item.opciones.modo + ' · ' + item.opciones.conector;
+        info.appendChild(opts);
+      }
       const removeBtn = document.createElement('button');
       removeBtn.className = 'quote-remove';
       removeBtn.textContent = '✕';
       removeBtn.setAttribute('aria-label', 'Quitar ' + item.nombre);
-      removeBtn.addEventListener('click', ()=> removeFromQuoteList(item.modelo));
-      row.appendChild(span);
+      removeBtn.addEventListener('click', ()=> removeFromQuoteList(idx));
+      row.appendChild(info);
       row.appendChild(removeBtn);
       body.appendChild(row);
     });
