@@ -97,7 +97,7 @@ section{margin-bottom:64px;}
 .card-demo .price{font-size:13px;color:var(--gray-deep);}
 
 .rating-demo{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;width:fit-content;}
-.rating-demo .stars{color:var(--terracota-deep);letter-spacing:1px;}
+.rating-demo .stars{color:var(--text);letter-spacing:1px;}
 .rating-demo .count{font-size:12px;color:var(--gray-deep);text-decoration:underline;}
 .rating-demo-caption{font-size:11px;color:var(--gray-deep);margin-top:-4px;}
 
@@ -166,22 +166,22 @@ footer{border-top:2px solid var(--deep);padding-top:24px;font-size:11px;color:va
         <div class="swatch" style="background:#3e3e3e;"></div>
         <div class="color-name">Text / Dark</div>
         <div class="color-hex">#3E3E3E</div>
-        <div class="color-use">Cuerpo de texto principal, descripciones, precios</div>
+        <div class="color-use">Cuerpo de texto principal, descripciones, precios — y también stars, EFFICACY, stats grandes (94/90/88%): el homepage de referencia prueba que el rating en negro es el patrón correcto, no terracota</div>
         <span class="color-flag pass">10.05:1 sobre crema — AAA</span>
       </div>
       <div class="color-card">
         <div class="swatch" style="background:#d86000;"></div>
         <div class="color-name">Accent / Terracota</div>
         <div class="color-hex">#D86000</div>
-        <div class="color-use">Solo texto grande (36px+), íconos y elementos decorativos no-textuales</div>
-        <span class="color-flag adjusted">3.53:1 — AA large / no-text únicamente</span>
+        <div class="color-use">Solo elementos decorativos no-textuales: underline de tab activo, barra de progreso</div>
+        <span class="color-flag adjusted">Nunca como texto — regla del homepage de referencia</span>
       </div>
       <div class="color-card">
         <div class="swatch" style="background:#b85100;"></div>
         <div class="color-name">Accent / Terracota Deep</div>
         <div class="color-hex">#B85100</div>
-        <div class="color-use">Texto normal y badges: stars, rating, tabs, eyebrow, hover de CTA secundario</div>
-        <span class="color-flag pass">4.68:1 sobre crema — AA texto normal</span>
+        <div class="color-use">Solo fondos: badge "SAVE %" e Idea Spotlight — nunca texto (4.98:1 con texto blanco encima)</div>
+        <span class="color-flag pass">Mismo matiz, ~6% menos luminoso que el original</span>
       </div>
       <div class="color-card">
         <div class="swatch" style="background:#6b6a68;"></div>
@@ -202,11 +202,11 @@ footer{border-top:2px solid var(--deep);padding-top:24px;font-size:11px;color:va
       </thead>
       <tbody>
         <tr>
-          <td>Rating stars, tabs eyebrow, badges, reviewer stars (texto ≤14px)</td>
+          <td>Rating stars, EFFICACY, reviewer stars, stats grandes (94/90/88%)</td>
           <td class="mono">#D86000</td>
           <td><span class="ratio fail">3.53:1</span></td>
-          <td><span class="badge fail">Falla AA</span></td>
-          <td class="mono">→ #B85100 (4.68:1)</td>
+          <td><span class="badge fail">Falla el patrón de referencia</span></td>
+          <td class="mono">→ Text/Dark #3E3E3E (10.05:1)</td>
         </tr>
         <tr>
           <td>Badge "SAVE %" — texto blanco sobre fondo terracota</td>
@@ -223,17 +223,10 @@ footer{border-top:2px solid var(--deep);padding-top:24px;font-size:11px;color:va
           <td class="mono">→ #6B6A68 (5.08:1)</td>
         </tr>
         <tr>
-          <td>Stat número grande (36px, "94%")</td>
-          <td class="mono">#D86000</td>
-          <td><span class="ratio ok">3.53:1</span></td>
-          <td><span class="badge ok">Pasa AA large</span></td>
-          <td class="mono">Sin cambio</td>
-        </tr>
-        <tr>
           <td>Underline de tab activo, barra de progreso (no-texto)</td>
           <td class="mono">#D86000</td>
           <td><span class="ratio ok">3.53:1</span></td>
-          <td><span class="badge ok">Pasa 3:1 no-texto</span></td>
+          <td><span class="badge ok">Pasa 3:1 no-texto — se mantiene</span></td>
           <td class="mono">Sin cambio</td>
         </tr>
         <tr>
@@ -245,8 +238,8 @@ footer{border-top:2px solid var(--deep);padding-top:24px;font-size:11px;color:va
         </tr>
       </tbody>
     </table>
-    <p class="audit-note"><strong>Por qué no un solo color para todo:</strong> el error común es "arreglar" el contraste subiendo TODO el acento a un tono oscuro parejo, perdiendo el punto vibrante de marca. Aquí se mantuvo <strong>#D86000</strong> donde el tamaño o el rol (decorativo/no-textual) ya cumple 3:1, y se reservó <strong>#B85100</strong> —mismo matiz, ~6% menos luminoso— solo donde el texto es pequeño y necesita 4.5:1. Jerarquía de contraste, no un solo ajuste global.</p>
-    <p class="audit-note"><strong>Aplicado en el archivo real, no solo documentado:</strong> auditamos las 108 apariciones de Terracota en el Figma completo (Homepage + Product Page + Design System). <code>Accent/Terracotta Deep</code> y <code>Neutral/Gray Deep</code> ahora existen como Variables de Figma reales en la colección "Brand Colors" — no son solo una sugerencia en este HTML. Se corrigieron los componentes maestros (Review, Tab Item, Badge) para que el fix se propague a todas sus instancias, más un hallazgo extra: el badge "SAVE %" tenía el hex puesto a mano en vez de referenciar la variable — se corrigió el binding de paso.</p>
+    <p class="audit-note"><strong>La corrección real no fue un color nuevo — fue disciplina.</strong> El primer intento fue crear <code>Accent/Terracotta Deep</code> como color de texto (misma tonalidad, oscurecida hasta pasar 4.5:1). Cumplía WCAG, pero inventaba un patrón que no existe en el homepage de referencia que dio Getmore: ahí las estrellas de reseñas están en negro, nunca en naranja — el terracota solo aparece en el badge de descuento. La versión final no usa un color inventado para el texto: reutiliza <strong>Text/Dark</strong>, que ya pasaba 10:1 y ya era parte del sistema. <code>Accent/Terracotta Deep</code> se quedó, pero solo para fondos (badge, Idea Spotlight) — el único rol que el propio homepage le da al acento.</p>
+    <p class="audit-note"><strong>Aplicado en el archivo real, no solo documentado:</strong> auditamos las 108 apariciones de Terracota en el Figma completo (Homepage + Product Page + Design System). Se corrigieron los componentes maestros (Review, Tab Item, Badge) para que el fix se propague a todas sus instancias, más un hallazgo extra: el badge "SAVE %" tenía el hex puesto a mano en vez de referenciar la variable — se corrigió el binding de paso. La página "Homepage" —el archivo de referencia que dio Getmore— se dejó intacta: solo se tocó el Product Page y la documentación del Design System.</p>
   </section>
 
   <section>
