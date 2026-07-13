@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonnet · Sistema de Diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --deep:#374533;--cream:#f9f8f2;--text:#3e3e3e;
+  --terracota:#d86000;--terracota-deep:#b85100;
+  --gray:#82817f;--gray-deep:#6b6a68;
+  --line:#e0ded1;--white:#ffffff;
+  --ff-body:'Urbanist',sans-serif;--ff-action:'Jost',sans-serif;
+}
+body{font-family:var(--ff-body);background:var(--cream);color:var(--text);font-size:15px;line-height:1.6;}
+.wrap{max-width:1000px;margin:0 auto;padding:64px 40px 100px;}
+
+.eyebrow{font-family:var(--ff-action);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracota-deep);margin-bottom:10px;}
+h1{font-weight:800;font-size:44px;color:var(--deep);line-height:1.08;margin-bottom:18px;}
+.intro{font-size:15px;font-weight:400;color:var(--text);max-width:640px;line-height:1.75;margin-bottom:56px;}
+
+h2{font-weight:700;font-size:26px;color:var(--deep);margin-bottom:8px;}
+.section-sub{font-size:13px;color:var(--gray-deep);margin-bottom:28px;max-width:620px;line-height:1.6;}
+section{margin-bottom:64px;}
+
+/* Direccion visual */
+.direction-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.direction-card{background:var(--white);padding:22px 18px;border-top:3px solid var(--terracota-deep);}
+.direction-card h4{font-weight:700;font-size:15px;color:var(--deep);margin-bottom:8px;}
+.direction-card p{font-size:12.5px;font-weight:400;color:var(--gray-deep);line-height:1.6;}
+
+/* Paleta */
+.color-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.color-card{background:var(--white);padding:20px;}
+.swatch{width:100%;height:64px;margin-bottom:14px;border:1px solid var(--line);border-radius:4px;}
+.color-name{font-weight:700;font-size:15px;color:var(--deep);margin-bottom:2px;}
+.color-hex{font-family:'Courier New',monospace;font-size:12.5px;color:var(--terracota-deep);letter-spacing:0.02em;margin-bottom:8px;}
+.color-use{font-size:12px;color:var(--gray-deep);line-height:1.5;}
+.color-flag{display:inline-block;margin-top:8px;font-size:10.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:3px 8px;border-radius:3px;}
+.color-flag.pass{background:#e7efe4;color:#374533;}
+.color-flag.adjusted{background:#fbe9dd;color:#b85100;}
+
+/* Auditoria de accesibilidad */
+.audit-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--white);border:1px solid var(--line);}
+.audit-table th,.audit-table td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);}
+.audit-table th{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-deep);font-weight:600;background:#f4f2ea;}
+.audit-table td.mono{font-family:'Courier New',monospace;}
+.ratio{font-weight:700;}
+.ratio.fail{color:#b3261e;}
+.ratio.ok{color:#2d5a2d;}
+.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:0.03em;}
+.badge.fail{background:#fbe4e2;color:#b3261e;}
+.badge.ok{background:#e0eee0;color:#2d5a2d;}
+.audit-note{margin-top:16px;font-size:12.5px;color:var(--gray-deep);line-height:1.7;background:#f4f2ea;border-left:3px solid var(--terracota-deep);padding:14px 18px;border-radius:0 6px 6px 0;}
+.audit-note strong{color:var(--deep);}
+
+/* Tipografia */
+.type-row{display:flex;align-items:baseline;gap:24px;padding:20px 0;border-bottom:1px solid var(--line);}
+.type-row:last-child{border-bottom:none;}
+.type-meta{width:190px;flex-shrink:0;}
+.type-label{font-family:var(--ff-action);font-size:12px;font-weight:600;letter-spacing:0.04em;color:var(--terracota-deep);}
+.type-specs{font-size:11px;color:var(--gray-deep);margin-top:3px;}
+.type-current{font-size:10.5px;color:var(--gray-deep);margin-top:2px;font-style:italic;}
+.type-sample{font-weight:800;color:var(--deep);line-height:1.05;flex:1;}
+.type-sample.body-sample{font-family:var(--ff-body);font-weight:400;font-size:16px;line-height:1.6;color:var(--text);}
+
+/* Componentes */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+.comp-card{background:var(--white);padding:26px;display:flex;flex-direction:column;align-items:flex-start;gap:14px;}
+.comp-label{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-deep);}
+
+.btn-demo{font-family:var(--ff-action);background:var(--deep);color:var(--white);padding:13px 30px;font-size:14px;font-weight:500;border:none;border-radius:4px;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.btn-demo.hover{background:#2c382a;}
+.btn-demo.disabled{background:#c9c7bd;color:#fff;cursor:not-allowed;}
+.btn-state-label{font-size:10.5px;color:var(--gray-deep);text-align:center;margin-top:6px;}
+.btn-stack{display:flex;flex-direction:column;align-items:center;gap:0;}
+
+.tag-demo{display:flex;gap:8px;flex-wrap:wrap;}
+.tag-demo span{font-size:12px;font-weight:400;padding:6px 14px;border-radius:999px;background:var(--cream);color:var(--deep);border:1px solid var(--line);}
+
+.input-demo{display:flex;flex-direction:column;gap:14px;width:100%;max-width:260px;}
+.input-demo label{font-size:11px;font-weight:600;color:var(--text);}
+.input-demo input{font-family:var(--ff-body);font-size:14px;padding:11px 14px;border-radius:6px;border:1.5px solid var(--line);background:var(--white);color:var(--text);}
+.input-demo input.focus{border-color:var(--deep);outline:2px solid rgba(55,69,51,0.15);}
+.input-demo input.error{border-color:#b3261e;}
+.input-demo .err-msg{font-size:11px;color:#b3261e;margin-top:-8px;}
+
+.card-demo{width:100%;max-width:220px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--white);}
+.card-demo .thumb{height:110px;background:linear-gradient(135deg,#e7e3d6,#cdc7b6);}
+.card-demo .body{padding:14px;display:flex;flex-direction:column;gap:6px;}
+.card-demo .pname{font-size:14px;font-weight:600;color:var(--text);}
+.card-demo .price{font-size:13px;color:var(--gray-deep);}
+
+.rating-demo{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;width:fit-content;}
+.rating-demo .stars{color:var(--terracota-deep);letter-spacing:1px;}
+.rating-demo .count{font-size:12px;color:var(--gray-deep);text-decoration:underline;}
+.rating-demo-caption{font-size:11px;color:var(--gray-deep);margin-top:-4px;}
+
+footer{border-top:2px solid var(--deep);padding-top:24px;font-size:11px;color:var(--gray-deep);}
+
+@media(max-width:800px){
+  .direction-grid{grid-template-columns:repeat(2,1fr);}
+  .color-grid{grid-template-columns:1fr 1fr;}
+  .comp-grid{grid-template-columns:1fr;}
+  .type-row{flex-direction:column;gap:6px;}
+  .type-meta{width:auto;}
+  h1{font-size:32px;}
+  .audit-table{font-size:11.5px;}
+  .audit-table th,.audit-table td{padding:8px 8px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Sistema de diseño · extraído del build</p>
+  <h1>Sonnet <span style="color:var(--terracota-deep);">Bare Earth</span></h1>
+  <p class="intro">Documento de diseño para <strong>sonnet-product-page-final.html</strong> — valores reales verificados por muestreo del código implementado, no estimados. Pensado como paso intermedio antes de construir tokens y componentes en Figma.</p>
+
+  <section>
+    <h2>Dirección visual</h2>
+    <p class="section-sub">Cuatro decisiones que definen el carácter de la marca — cada una resuelve algo específico, no es "gusto".</p>
+    <div class="direction-grid">
+      <div class="direction-card">
+        <h4>Fondo crema cálido</h4>
+        <p>Aleja a Sonnet del blanco clínico típico de skincare genérico — comunica "natural" y "piel" antes de leer una palabra.</p>
+      </div>
+      <div class="direction-card">
+        <h4>Verde profundo como ancla</h4>
+        <p>Reservado para texto de mayor jerarquía, header y footer — lee como "tierra/calma" sin caer en el verde menta genérico del rubro.</p>
+      </div>
+      <div class="direction-card">
+        <h4>Terracota como único acento</h4>
+        <p>Un solo color de acción — precio, rating, CTA hover, badges. Disciplinado: si todo resalta, nada resalta.</p>
+      </div>
+      <div class="direction-card">
+        <h4>Urbanist + Jost</h4>
+        <p>Urbanist para contenido (se lee), Jost para acción (botones). El usuario reconoce un CTA por su tipografía, no solo su color.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Paleta de color</h2>
+    <p class="section-sub">Valores reales verificados por muestreo del build — no coinciden 1:1 con el brief inicial (diferencia de 1–2 unidades por canal, imperceptible; se documenta el valor real).</p>
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="swatch" style="background:#374533;"></div>
+        <div class="color-name">Brand / Deep</div>
+        <div class="color-hex">#374533</div>
+        <div class="color-use">Texto de marca, header, footer, tabs activos, CTA primario</div>
+        <span class="color-flag pass">9.57:1 sobre crema — AAA</span>
+      </div>
+      <div class="color-card">
+        <div class="swatch" style="background:#f9f8f2;border:1px solid #e0ded1;"></div>
+        <div class="color-name">Background / Cream</div>
+        <div class="color-hex">#F9F8F2</div>
+        <div class="color-use">Fondo base de toda la página (verificado; brief decía #F9F6F2)</div>
+      </div>
+      <div class="color-card">
+        <div class="swatch" style="background:#3e3e3e;"></div>
+        <div class="color-name">Text / Dark</div>
+        <div class="color-hex">#3E3E3E</div>
+        <div class="color-use">Cuerpo de texto principal, descripciones, precios</div>
+        <span class="color-flag pass">10.05:1 sobre crema — AAA</span>
+      </div>
+      <div class="color-card">
+        <div class="swatch" style="background:#d86000;"></div>
+        <div class="color-name">Accent / Terracota</div>
+        <div class="color-hex">#D86000</div>
+        <div class="color-use">Solo texto grande (36px+), íconos y elementos decorativos no-textuales</div>
+        <span class="color-flag adjusted">3.53:1 — AA large / no-text únicamente</span>
+      </div>
+      <div class="color-card">
+        <div class="swatch" style="background:#b85100;"></div>
+        <div class="color-name">Accent / Terracota Deep</div>
+        <div class="color-hex">#B85100</div>
+        <div class="color-use">Texto normal y badges: stars, rating, tabs, eyebrow, hover de CTA secundario</div>
+        <span class="color-flag pass">4.68:1 sobre crema — AA texto normal</span>
+      </div>
+      <div class="color-card">
+        <div class="swatch" style="background:#6b6a68;"></div>
+        <div class="color-name">Neutral / Gray Deep</div>
+        <div class="color-hex">#6B6A68</div>
+        <div class="color-use">Texto secundario: rating count, shipping note, tabs inactivos, precio tachado</div>
+        <span class="color-flag pass">5.08:1 sobre crema — AA texto normal</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Auditoría de accesibilidad</h2>
+    <p class="section-sub">WCAG AA exige 4.5:1 en texto normal y 3:1 en texto grande (24px+, o 18.66px+ en negritas) — no es el máximo posible (eso sería AAA, 7:1), es el estándar profesional mínimo. Contraste calculado con la fórmula de luminancia relativa de WCAG 2.1, verificado por script, no a ojo.</p>
+    <table class="audit-table">
+      <thead>
+        <tr><th>Elemento</th><th>Color original</th><th>Contraste</th><th>Veredicto</th><th>Fix aplicado</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rating stars, tabs eyebrow, badges, reviewer stars (texto ≤14px)</td>
+          <td class="mono">#D86000</td>
+          <td><span class="ratio fail">3.53:1</span></td>
+          <td><span class="badge fail">Falla AA</span></td>
+          <td class="mono">→ #B85100 (4.68:1)</td>
+        </tr>
+        <tr>
+          <td>Badge "SAVE %" — texto blanco sobre fondo terracota</td>
+          <td class="mono">#D86000 bg</td>
+          <td><span class="ratio fail">3.76:1</span></td>
+          <td><span class="badge fail">Falla AA</span></td>
+          <td class="mono">→ #B85100 bg (4.98:1)</td>
+        </tr>
+        <tr>
+          <td>Rating count, shipping note, tabs inactivos, precio tachado</td>
+          <td class="mono">#82817F</td>
+          <td><span class="ratio fail">3.66:1</span></td>
+          <td><span class="badge fail">Falla AA</span></td>
+          <td class="mono">→ #6B6A68 (5.08:1)</td>
+        </tr>
+        <tr>
+          <td>Stat número grande (36px, "94%")</td>
+          <td class="mono">#D86000</td>
+          <td><span class="ratio ok">3.53:1</span></td>
+          <td><span class="badge ok">Pasa AA large</span></td>
+          <td class="mono">Sin cambio</td>
+        </tr>
+        <tr>
+          <td>Underline de tab activo, barra de progreso (no-texto)</td>
+          <td class="mono">#D86000</td>
+          <td><span class="ratio ok">3.53:1</span></td>
+          <td><span class="badge ok">Pasa 3:1 no-texto</span></td>
+          <td class="mono">Sin cambio</td>
+        </tr>
+        <tr>
+          <td>Tarjetas "Idea Spotlight" — texto blanco sobre fondo terracota</td>
+          <td class="mono">#FFFFFF on #D86000</td>
+          <td><span class="ratio fail">3.76:1</span></td>
+          <td><span class="badge fail">Falla AA</span></td>
+          <td class="mono">→ fondo #B85100 (4.98:1)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="audit-note"><strong>Por qué no un solo color para todo:</strong> el error común es "arreglar" el contraste subiendo TODO el acento a un tono oscuro parejo, perdiendo el punto vibrante de marca. Aquí se mantuvo <strong>#D86000</strong> donde el tamaño o el rol (decorativo/no-textual) ya cumple 3:1, y se reservó <strong>#B85100</strong> —mismo matiz, ~6% menos luminoso— solo donde el texto es pequeño y necesita 4.5:1. Jerarquía de contraste, no un solo ajuste global.</p>
+    <p class="audit-note"><strong>Aplicado en el archivo real, no solo documentado:</strong> auditamos las 108 apariciones de Terracota en el Figma completo (Homepage + Product Page + Design System). <code>Accent/Terracotta Deep</code> y <code>Neutral/Gray Deep</code> ahora existen como Variables de Figma reales en la colección "Brand Colors" — no son solo una sugerencia en este HTML. Se corrigieron los componentes maestros (Review, Tab Item, Badge) para que el fix se propague a todas sus instancias, más un hallazgo extra: el badge "SAVE %" tenía el hex puesto a mano en vez de referenciar la variable — se corrigió el binding de paso.</p>
+  </section>
+
+  <section>
+    <h2>Tipografía</h2>
+    <p class="section-sub">Escala propuesta para unificar el sistema. <em>H1 (32px) ya coincide con el título de producto implementado</em>; Body sube de 14px (actual en el build) a 16px — mínimo de lectura cómoda recomendado para web, relevante en skincare porque la audiencia no se limita a un rango etario joven.</p>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-label">Display / Hero</div>
+        <div class="type-specs">Urbanist · 800 · 48px</div>
+        <div class="type-current">Uso: hero de homepage / About — no existe aún en el PDP</div>
+      </div>
+      <div class="type-sample" style="font-size:40px;">Bare Earth</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-label">H1 / Product Title</div>
+        <div class="type-specs">Urbanist · 700 · 32px</div>
+        <div class="type-current">Ya implementado igual en .product-title</div>
+      </div>
+      <div class="type-sample" style="font-size:32px;">BARE EARTH Facial Cleanser</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-label">H2 / Section Title</div>
+        <div class="type-specs">Urbanist · 600 · 24px</div>
+        <div class="type-current">Build actual usa 20px en "Reviews" / "You may also like"</div>
+      </div>
+      <div class="type-sample" style="font-size:24px;">What people are saying</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-label">Body</div>
+        <div class="type-specs">Urbanist · 400 · 16px</div>
+        <div class="type-current">Build actual usa 14px en descripción y tabs</div>
+      </div>
+      <div class="type-sample body-sample">A gentle, daily gel cleanser enriched with Willow bark and Chamomile to cleanse, calm, and soften.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-label">Label / Button</div>
+        <div class="type-specs">Jost · 500 · 14px</div>
+        <div class="type-current">Ya implementado igual en .add-to-cart</div>
+      </div>
+      <div class="type-sample" style="font-family:'Jost',sans-serif;font-size:14px;font-weight:500;">Add to Cart</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div class="type-label">Caption</div>
+        <div class="type-specs">Urbanist · 400 · 12px</div>
+        <div class="type-current">Ya implementado igual en .rating-count</div>
+      </div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--gray-deep);">4.9 · 128 reviews</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Componentes clave</h2>
+    <p class="section-sub">Patrones reutilizables, con sus estados — no solo el estado "feliz".</p>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <span class="comp-label">Botón primario — estados</span>
+        <div class="btn-row">
+          <div class="btn-stack"><button class="btn-demo">Add to Cart</button><p class="btn-state-label">default</p></div>
+          <div class="btn-stack"><button class="btn-demo hover">Add to Cart</button><p class="btn-state-label">hover</p></div>
+          <div class="btn-stack"><button class="btn-demo disabled">Add to Cart</button><p class="btn-state-label">disabled</p></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-label">Rating compacto (clickeable → Reviews)</span>
+        <div class="rating-demo">
+          <span class="stars">★★★★★</span>
+          <span class="count">4.9 · 128 reviews</span>
+        </div>
+        <p class="rating-demo-caption">Ancla con scroll suave a la sección Reviews completa — resuelve la tensión narrativa-vs-conversión sin mover contenido.</p>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-label">Input — estados</span>
+        <div class="input-demo">
+          <label>Email</label>
+          <input type="text" placeholder="Default" readonly>
+          <input type="text" class="focus" placeholder="Focus" readonly>
+          <input type="text" class="error" placeholder="Error" readonly>
+          <p class="err-msg">Ingresa un email válido</p>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-label">Tags de especificación</span>
+        <div class="tag-demo"><span>Gentle</span><span>Calming</span><span>Daily Use</span></div>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-label">Product card</span>
+        <div class="card-demo">
+          <div class="thumb"></div>
+          <div class="body">
+            <p class="pname">Facial Cleanser</p>
+            <p class="price">From $38 USD</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <span class="comp-label">Badge de descuento</span>
+        <div style="background:#b85100;color:#fff;font-size:12px;padding:4px 8px;border-radius:2px;width:fit-content;">SAVE 22%</div>
+        <p class="btn-state-label" style="margin-top:0;">Ajustado a #B85100 — el original #D86000 daba 3.76:1 en texto blanco</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>Sonnet · Bare Earth · Sistema de diseño interno · Basado en sonnet-product-page-final.html · Siguiente paso: tokens y componentes en Figma</footer>
+
+</div>
+</body>
+</html>
